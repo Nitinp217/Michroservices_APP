@@ -1,0 +1,5 @@
+package com.app.nitin.service.impl;
+
+public class InventoryServiceApplication {
+
+}

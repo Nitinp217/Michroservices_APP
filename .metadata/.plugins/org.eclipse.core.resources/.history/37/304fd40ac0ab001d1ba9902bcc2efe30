@@ -1,0 +1,5 @@
+package com.app.nitin.service;
+
+public interface IInventoryService {
+
+}

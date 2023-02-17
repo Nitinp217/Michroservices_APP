@@ -1,0 +1,18 @@
+package com.app.nitin.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.app.nitin.repository.InventoryRepository;
+import com.app.nitin.service.IInventoryService;
+
+public class InventoryServiceImpl implements IInventoryService{
+
+	@Autowired
+	private InventoryRepository repo;
+	
+	public boolean isInStock(String skuCode) {
+		return repo.findBySkuCode(skuCode);
+	}
+
+	
+}

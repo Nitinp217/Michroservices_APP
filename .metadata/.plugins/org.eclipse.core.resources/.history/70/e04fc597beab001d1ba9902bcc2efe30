@@ -1,0 +1,5 @@
+package com.app.nitin.controller;
+
+public class InventoryController {
+
+}

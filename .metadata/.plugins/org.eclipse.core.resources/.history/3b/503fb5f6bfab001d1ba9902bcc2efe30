@@ -1,0 +1,7 @@
+package com.app.nitin.service.impl;
+
+import com.app.nitin.service.IInventoryService;
+
+public class InventoryServiceImpl implements IInventoryService{
+
+}
