@@ -17,7 +17,7 @@ import com.app.product.service.impl.ProductServiceImpl;
 
 
 @RestController
-@RequestMapping("/v1/api/product")
+@RequestMapping("/api/product")
 public class ProuctRestController {
 
 	@Autowired
@@ -29,7 +29,7 @@ public class ProuctRestController {
 		return new ResponseEntity<>("Product created successfully",HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/fetchAll")
+	@GetMapping()
 	public ResponseEntity<List<Product>> fetchAllProducts(){
 		List<Product> list = service.findAllProduct();
 		return new ResponseEntity<>(list,HttpStatus.OK);

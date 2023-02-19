@@ -26,7 +26,7 @@ public class OrderServiceImpl implements IOrderService {
 	private OrderRepo orderRepo;
 
 	@Autowired
-	private WebClient webClient;
+	private WebClient.Builder webClientBuilder;
 
 	public void saveOrderDetails(List<OrderLineItemsList> itemsList) {
 
@@ -40,8 +40,8 @@ public class OrderServiceImpl implements IOrderService {
 		List<String> skuCode = order.getOrderLineItemsList().stream().map(OrderLineItemsList::getSkuCode).toList();
 		
 		// call InventoryService and place order if product is in stock
-		InventoryResponse[] inventoryResponseArray = webClient.get()
-				.uri("http://localhost:8191/api/inventory",
+		InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
+				.uri("http://Inventory-Service/api/inventory",
 						uribuilder -> uribuilder.queryParam("skuCode", skuCode).build())
 				.retrieve().bodyToMono(InventoryResponse[].class).block();
 		
