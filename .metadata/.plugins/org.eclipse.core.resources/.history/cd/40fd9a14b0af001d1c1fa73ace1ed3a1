@@ -1,0 +1,53 @@
+package com.app.order.serviceimpl;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.app.order.entity.Order;
+import com.app.order.entity.OrderLineItemsList;
+import com.app.order.repo.OrderRepo;
+import com.app.order.service.IOrderService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+@Transactional
+public class OrderServiceImpl implements IOrderService {
+
+
+	@Autowired
+	private OrderRepo orderRepo;
+
+	@Autowired
+	private WebClient webClient;
+
+	public void saveOrderDetails(List<OrderLineItemsList> itemsList) {
+
+		log.info("Order Details Saved Successfully");
+
+		Order order = new Order();
+		order.setOrderNo(UUID.randomUUID().toString());
+		order.setOrderLineItemsList(itemsList);
+
+		List<String> skuCode = order.getOrderLineItemsList().stream().map(i -> i.getSkuCode()).toList();
+
+		// call InventoryService and place order if product is in stock
+		Boolean result = webClient.get()
+				.uri("http://localhost:8082/api/inventory/sku-code",
+						uribuilder -> uribuilder.queryParam("skuCode", skuCode).build())
+				.retrieve().bodyToMono(Boolean.class).block();
+		if (result)
+			orderRepo.save(order);
+		else
+			throw new IllegalArgumentException("Product not in stock ! Please try again later");
+
+		log.info("Order of Number:- {} savecSuccessfully", order.getOrderNo());
+	}
+
+}
