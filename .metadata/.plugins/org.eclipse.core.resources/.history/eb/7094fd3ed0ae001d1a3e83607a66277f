@@ -1,0 +1,10 @@
+package com.app.nitin.service;
+
+import java.util.List;
+
+import com.app.nitin.dto.InventoryResponce;
+
+public interface IInventoryService {
+
+	List<InventoryResponce> isInStock(List<String> skuCode);
+}

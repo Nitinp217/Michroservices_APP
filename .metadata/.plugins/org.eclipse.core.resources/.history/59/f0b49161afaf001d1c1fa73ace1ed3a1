@@ -1,0 +1,29 @@
+package com.app.nitin.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.nitin.dto.InventoryResponse;
+import com.app.nitin.repository.InventoryRepository;
+import com.app.nitin.service.IInventoryService;
+
+@Service
+public class InventoryServiceImpl implements IInventoryService{
+
+	@Autowired
+	private InventoryRepository repo;
+	
+	@Transactional(readOnly = true)
+	public List<InventoryResponse> isInStock(List<String> skuCode) {
+		return repo.findBySkuCodeIn(skuCode).stream()
+				.map(inventory->InventoryResponse.builder()
+						.skuCode(inventory.getSkuCode())
+						.isInStock(inventory.getQuantity() > 0).build()
+						).toList();
+	}
+
+	
+}

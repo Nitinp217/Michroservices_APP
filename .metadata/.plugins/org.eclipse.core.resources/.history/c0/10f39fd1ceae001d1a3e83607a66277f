@@ -1,0 +1,5 @@
+package com.app.nitin.dto;
+
+public class InventoryResponce {
+
+}
