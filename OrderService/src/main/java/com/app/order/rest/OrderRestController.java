@@ -14,13 +14,13 @@ import com.app.order.entity.OrderLineItemsList;
 import com.app.order.serviceimpl.OrderServiceImpl;
 
 @Controller
-@RequestMapping("/v1/api/order")
+@RequestMapping("/api/order")
 public class OrderRestController {
 
 	@Autowired
 	private OrderServiceImpl service;
 	
-	@PostMapping("/place")
+	@PostMapping()
 	public ResponseEntity<String> placeOrder(@RequestBody List<OrderLineItemsList> itemsList) {
 		service.saveOrderDetails(itemsList);
 		return new ResponseEntity<>("Order placed successfully", HttpStatus.CREATED);
